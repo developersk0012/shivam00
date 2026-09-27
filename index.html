@@ -1,78 +1,68 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AI Chat</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Instagram Downloader</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#0b1020;color:#f5f7ff;height:100vh;overflow:hidden}
-.app{height:100vh;display:flex}.side{width:260px;background:#0f1629;border-right:1px solid #202a43;padding:16px;display:flex;flex-direction:column}
-.brand{font-size:21px;font-weight:800;padding:8px 8px 20px}.brand span{color:#8b7cff}
-.new{width:100%;border:1px solid #303b59;background:#171f35;color:#fff;padding:12px 14px;border-radius:12px;font-size:14px;cursor:pointer}
-.tip{margin-top:auto;color:#8290ad;font-size:12px;line-height:1.5;padding:10px}.main{flex:1;display:flex;flex-direction:column;min-width:0}
-.top{height:64px;border-bottom:1px solid #202a43;display:flex;align-items:center;padding:0 22px;font-weight:700}.status{margin-left:auto;color:#7fe3aa;font-size:12px;display:flex;gap:7px;align-items:center}.dot{width:7px;height:7px;border-radius:50%;background:#49d788}
-.chat{flex:1;overflow:auto;padding:28px max(18px,calc((100% - 850px)/2))}
-.welcome{text-align:center;margin:10vh auto 0;max-width:650px}.logo{width:64px;height:64px;margin:auto;border-radius:20px;background:linear-gradient(135deg,#8b7cff,#35c8ff);display:grid;place-items:center;font-size:28px;font-weight:900;box-shadow:0 12px 40px #0005}
-h1{font-size:32px;margin:18px 0 8px}.welcome p{color:#8996b2;margin:0}.examples{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:28px}.ex{background:#121b31;border:1px solid #26324d;color:#cbd3e6;padding:13px;border-radius:12px;text-align:left;cursor:pointer}.ex:hover{border-color:#6f63db}
-.msg{display:flex;gap:12px;margin:18px 0;align-items:flex-start}.avatar{flex:0 0 34px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#202a43;font-size:13px;font-weight:800}.user .avatar{background:#5d50d8}.bubble{max-width:760px;line-height:1.65;white-space:pre-wrap;color:#e9edfa}.user .bubble{background:#171f35;border:1px solid #26324d;padding:11px 14px;border-radius:14px}
-.composer{padding:14px 18px 20px}.box{max-width:850px;margin:auto;background:#121a2e;border:1px solid #303b59;border-radius:16px;padding:9px;display:flex;align-items:flex-end;box-shadow:0 15px 50px #0004}.box textarea{flex:1;background:transparent;border:0;outline:0;color:#fff;resize:none;padding:9px 10px;max-height:140px;font:inherit}.send{width:42px;height:42px;border:0;border-radius:12px;background:#7769ed;color:#fff;font-size:19px;cursor:pointer}.send:disabled{opacity:.45}.foot{text-align:center;color:#596780;font-size:11px;margin-top:8px}
-@media(max-width:700px){.side{display:none}.top{padding:0 16px}.chat{padding:18px 14px}.welcome{margin-top:7vh}.examples{grid-template-columns:1fr}h1{font-size:27px}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;min-height:100vh;background:linear-gradient(135deg,#111827,#4c1d95,#be185d);color:#fff;display:flex;justify-content:center;align-items:center;padding:20px}
+.container{width:100%;max-width:480px;background:rgba(255,255,255,.1);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.18);border-radius:25px;padding:25px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.logo{width:70px;height:70px;margin:auto;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:35px;background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7)}
+h1{text-align:center;margin-top:15px}.subtitle{text-align:center;color:#ddd;margin:8px 0 22px}
+.input-box{display:flex;gap:8px}input{width:100%;padding:15px;border:0;outline:0;border-radius:13px;background:rgba(255,255,255,.15);color:white;font-size:15px}input::placeholder{color:#ccc}
+button{border:0;cursor:pointer;border-radius:13px;padding:0 18px;font-weight:bold}.fetch{background:#fff;color:#111}
+.result{display:none;margin-top:22px;background:rgba(0,0,0,.2);border-radius:18px;padding:15px}
+.preview{width:100%;border-radius:15px;max-height:500px;object-fit:cover;background:#000}
+.download{display:block;text-align:center;margin-top:14px;padding:14px;border-radius:13px;background:linear-gradient(90deg,#ff2d55,#8b5cf6);color:white;text-decoration:none;font-weight:bold}
+.status{text-align:center;margin-top:15px;color:#ddd;font-size:14px}.error{color:#ffb4b4}.footer{text-align:center;margin-top:20px;font-size:12px;color:#bbb}
 </style>
 </head>
 <body>
-<div class="app">
-<aside class="side">
-  <div class="brand">✦ <span>AI</span> Chat</div>
-  <button class="new" id="newChat">＋ New chat</button>
-  <div class="tip">Your API key stays on the server. Never put it directly in browser JavaScript.</div>
-</aside>
-<main class="main">
-  <header class="top">AI Assistant <div class="status"><i class="dot"></i> Online</div></header>
-  <section class="chat" id="chat">
-    <div class="welcome" id="welcome">
-      <div class="logo">AI</div><h1>How can I help you?</h1>
-      <p>Ask anything and start a conversation.</p>
-      <div class="examples">
-        <button class="ex">Explain quantum computing simply</button>
-        <button class="ex">Write a professional email</button>
-        <button class="ex">Give me 5 creative ideas</button>
-        <button class="ex">Help me learn JavaScript</button>
-      </div>
-    </div>
-  </section>
-  <div class="composer">
-    <div class="box"><textarea id="input" rows="1" placeholder="Message AI..."></textarea><button class="send" id="send">➤</button></div>
-    <div class="foot">AI can make mistakes. Check important information.</div>
-  </div>
-</main>
+<div class="container">
+<div class="logo">📸</div>
+<h1>Instagram Downloader</h1>
+<p class="subtitle">Download Instagram videos easily</p>
+<div class="input-box">
+<input id="url" type="url" placeholder="Paste Instagram URL...">
+<button class="fetch" onclick="downloadMedia()">Get</button>
+</div>
+<div id="status" class="status"></div>
+<div id="result" class="result">
+<img id="thumbnail" class="preview" alt="Preview">
+<a id="downloadBtn" class="download" target="_blank" rel="noopener">⬇️ Download Video</a>
+</div>
+<div class="footer">Use only for content you have permission to download.</div>
 </div>
 <script>
-const chat=document.getElementById("chat"), input=document.getElementById("input"), send=document.getElementById("send"), welcome=document.getElementById("welcome");
-let messages=[];
-
-function add(role,text){
-  if(welcome) welcome.remove();
-  const row=document.createElement("div"); row.className="msg "+role;
-  const av=document.createElement("div"); av.className="avatar"; av.textContent=role==="user"?"You":"AI";
-  const b=document.createElement("div"); b.className="bubble"; b.textContent=text;
-  row.append(av,b); chat.appendChild(row); chat.scrollTop=chat.scrollHeight; return b;
-}
-async function ask(){
-  const text=input.value.trim(); if(!text||send.disabled)return;
-  input.value=""; input.style.height="auto"; add("user",text); messages.push({role:"user",content:text});
-  send.disabled=true; const bubble=add("assistant","Thinking…");
-  try{
-    const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages})});
-    const d=await r.json(); if(!r.ok) throw new Error(d.error||"Request failed");
-    bubble.textContent=d.reply; messages.push({role:"assistant",content:d.reply});
-  }catch(e){bubble.textContent="⚠️ "+e.message}
-  finally{send.disabled=false;input.focus()}
-}
-send.onclick=ask;
-input.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();ask()}});
-input.addEventListener("input",()=>{input.style.height="auto";input.style.height=Math.min(input.scrollHeight,140)+"px"});
-document.querySelectorAll(".ex").forEach(x=>x.onclick=()=>{input.value=x.textContent;input.focus();});
-document.getElementById("newChat").onclick=()=>{messages=[];chat.innerHTML='<div class="welcome" id="welcome"><div class="logo">AI</div><h1>How can I help you?</h1><p>Ask anything and start a conversation.</p><div class="examples"><button class="ex">Explain quantum computing simply</button><button class="ex">Write a professional email</button><button class="ex">Give me 5 creative ideas</button><button class="ex">Help me learn JavaScript</button></div></div>';document.querySelectorAll(".ex").forEach(x=>x.onclick=()=>{input.value=x.textContent;input.focus()});};
+async function downloadMedia(){
+const url=document.getElementById("url").value.trim();
+const status=document.getElementById("status");
+const result=document.getElementById("result");
+const thumbnail=document.getElementById("thumbnail");
+const downloadBtn=document.getElementById("downloadBtn");
+result.style.display="none";
+if(!url){status.innerHTML="⚠️ Please paste an Instagram URL.";status.className="status error";return}
+if(!url.includes("instagram.com")){status.innerHTML="⚠️ Please enter a valid Instagram URL.";status.className="status error";return}
+status.className="status";status.innerHTML="⏳ Fetching video...";
+try{
+const api="https://mixy-ox-enjoy.vercel.app/?url="+encodeURIComponent(url);
+const response=await fetch(api);
+if(!response.ok) throw new Error("API request failed");
+const data=await response.json();
+const videoUrl=data.video_url||data.video||data.url;
+const thumbUrl=data.thumbnail_url||data.thumbnail||data.cover;
+if(!videoUrl) throw new Error("Video URL not found");
+if(thumbUrl){thumbnail.src=thumbUrl;thumbnail.style.display="block"}else thumbnail.style.display="none";
+downloadBtn.href=videoUrl;
+result.style.display="block";
+status.innerHTML="✅ Video ready!";status.className="status";
+}catch(error){
+console.error(error);
+status.innerHTML="❌ Unable to fetch video. API may be unavailable or this Instagram URL may not be supported.";
+status.className="status error";
+}}
+document.getElementById("url").addEventListener("keydown",e=>{if(e.key==="Enter")downloadMedia()});
 </script>
 </body>
 </html>
