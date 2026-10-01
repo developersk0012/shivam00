@@ -1,10 +1,5 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SK Admin Panel</title><link rel="stylesheet" href="style.css"></head>
-<body class="admin-body">
-<header class="admin-top"><div class="brand"><span class="logo3d">SK</span><b>SK Education Control</b></div><span class="pill">ADMIN</span></header>
-<main class="dashboard">
-<section class="stats"><div class="stat"><b id="users">0</b><small>Users</small></div><div class="stat"><b id="messages">0</b><small>Messages</small></div><div class="stat"><b>LIVE</b><small>Chat bridge</small></div></section>
-<section class="panel"><h2>Admin Inbox</h2><p>Telegram replies can be bridged here as a fallback. This prototype keeps the UI ready; the secure server connection is configured separately.</p><div class="inbox"><div><b>Conversation</b><span>Waiting for Firebase</span></div><button onclick="location.href='chat.html'">Open test chat</button></div></section>
-<section class="panel"><h2>Management</h2><div class="manage-grid"><button>User Management</button><button>Chat Analysis</button><button>Settings</button><button>Announcements</button></div></section>
-</main></body></html>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SK Admin</title><link rel="stylesheet" href="style.css"></head><body class="adminpage"><header><div class="brand"><span>SK</span><b>SK Education Control</b></div><span class="pill">ADMIN</span></header><main class="dash"><div class="stats"><div><b id="u">0</b><small>Users</small></div><div><b id="m">0</b><small>Messages</small></div><div><b id="s">TEST</b><small>Status</small></div></div>
+<section class="card panel"><h2>⚡ Telegram Bot Setup</h2><p class="muted">Frontend test configuration. Values are saved in this browser only.</p><label>Bot Token<input id="token" type="password" placeholder="Paste new Bot Token"></label><label>Admin Chat ID<input id="chatid" value="8814586051"></label><label>Telegram API ID<input id="apiid" placeholder="API ID"></label><label>Telegram API Hash<input id="hash" type="password" placeholder="API Hash"></label><div class="row"><button id="save">Save Configuration</button><button id="test">Send Test Message</button></div><div id="result"></div></section>
+<section class="card panel"><h2>📊 Analysis</h2><div class="mini"><span>Messages today</span><b id="today">0</b></div><div class="mini"><span>Unread</span><b id="unread">0</b></div></section>
+<section class="card panel"><h2>👥 Users Management</h2><div id="users">No users yet.</div></section>
+<section class="card panel"><h2>⚙️ Settings</h2><button onclick="localStorage.clear();location.reload()">Clear local test data</button></section></main><script src="admin.js"></script></body></html>

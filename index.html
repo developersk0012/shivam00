@@ -1,91 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SK Education</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div id="app">
-  <section id="auth" class="screen auth-screen">
-    <div class="orb orb1"></div><div class="orb orb2"></div>
-    <div class="auth-card glass">
-      <div class="brand-mini"><span>SK</span><b>Education</b></div>
-      <h1 id="authTitle">Create your account</h1>
-      <p id="authSub">Start your smart study journey.</p>
-      <form id="signupForm">
-        <input id="name" placeholder="Full name" autocomplete="name" required>
-        <input id="photo" placeholder="Profile photo URL (optional)" type="url">
-        <input id="signupEmail" placeholder="Email ID" type="email" autocomplete="email" required>
-        <input id="signupPassword" placeholder="Password" type="password" autocomplete="new-password" minlength="6" required>
-        <input id="confirmPassword" placeholder="Confirm password" type="password" autocomplete="new-password" minlength="6" required>
-        <button class="primary" type="submit">Create Account <span>→</span></button>
-      </form>
-      <form id="loginForm" class="hidden">
-        <input id="loginEmail" placeholder="Email ID" type="email" autocomplete="email" required>
-        <input id="loginPassword" placeholder="Password" type="password" autocomplete="current-password" required>
-        <button class="primary" type="submit">Login <span>→</span></button>
-      </form>
-      <button id="switchAuth" class="text-btn">Already have an account? Login</button>
-      <div id="authMsg" class="msg"></div>
-    </div>
-  </section>
-
-  <section id="home" class="hidden">
-    <header class="topbar">
-      <div class="brand"><span class="logo3d">SK</span><strong>SK Education</strong></div>
-      <button id="profileBtn" class="avatar">S</button>
-    </header>
-
-    <main class="landing">
-      <div class="hero">
-        <div class="grid3d"></div>
-        <div class="floating-book">📚</div><div class="floating-orb"></div>
-        <p class="eyebrow">SMART STUDY • SMART SUPPORT</p>
-        <h1>Learn. Connect.<br><em>Grow.</em></h1>
-        <p class="hero-copy">A modern learning space for notes, resources, study support and direct communication with the SK Education team.</p>
-      </div>
-
-      <section class="cards">
-        <button class="feature-card blue" onclick="location.href='chat.html'">
-          <span class="icon">💬</span><div><b>Chat with Admin</b><small>Get direct study support</small></div><span class="arrow">↗</span>
-        </button>
-        <a class="feature-card" href="https://skeducation12.vercel.app/" target="_blank" rel="noopener">
-          <span class="icon">🌐</span><div><b>Official Website</b><small>Open SK Education</small></div><span class="arrow">↗</span>
-        </a>
-        <button class="feature-card" id="developerCard">
-          <span class="icon">👨‍💻</span><div><b>About Developer</b><small>Meet the creator</small></div><span class="arrow">↗</span>
-        </button>
-      </section>
-
-      <section class="about glass">
-        <p class="eyebrow">ABOUT SK EDUCATION</p>
-        <h2>Built for a smoother study experience.</h2>
-        <p>SK Education is designed as a student-friendly digital learning platform where educational resources, useful study tools and support can live in one place. The goal is simple: reduce friction between finding a resource, understanding what to study and getting help when you are stuck.</p>
-        <div class="feature-list">
-          <span>📚 Notes & study resources</span><span>🎯 Class-wise learning</span><span>💬 Direct admin support</span>
-          <span>🔎 Fast content discovery</span><span>📱 Mobile-first experience</span><span>🔔 Helpful notifications</span>
-          <span>🧠 Smart study workflow</span><span>⚡ Smooth modern UI</span><span>🔐 Account-based access</span>
-        </div>
-      </section>
-
-      <section class="developer glass" id="developer">
-        <p class="eyebrow">DEVELOPER</p><h2>Satendra Kumar</h2>
-        <p>Web Developer • Study-focused creator</p>
-        <div class="dev-grid">
-          <a href="mailto:satendrakkushwaha12@gmail.com">✉️ Email</a>
-          <a href="https://t.me/skeducation_support" target="_blank" rel="noopener">✈️ Telegram Support</a>
-        </div>
-        <p class="dev-note">Creating digital tools and learning experiences around education, web development and practical technology.</p>
-      </section>
-      <footer>© 2026 SK Education • Made for learning</footer>
-    </main>
-  </section>
-
-  <div id="devModal" class="modal hidden">
-    <div class="modal-card glass"><button class="close" id="closeModal">×</button><div class="dev-avatar">SK</div><h2>Satendra Kumar</h2><p>Web Developer • Study</p><p class="contact">satendrakkushwaha12@gmail.com</p><a href="https://t.me/skeducation_support" target="_blank">@skeducation_support</a></div>
-  </div>
-</div>
-<script src="app.js"></script>
-</body>
-</html>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SK Education</title><link rel="stylesheet" href="style.css"></head><body>
+<section id="auth" class="auth"><div class="orb a"></div><div class="orb b"></div><div class="card authcard"><div class="brand"><span>SK</span><b>SK Education</b></div><h1 id="title">Create account</h1><p>Learn. Connect. Grow.</p>
+<form id="signup"><input id="name" placeholder="Full name" required><input id="photo" type="url" placeholder="Profile photo URL (optional)"><input id="email" type="email" placeholder="Email ID" required><input id="pass" type="password" placeholder="Password" minlength="6" required><input id="confirm" type="password" placeholder="Confirm password" minlength="6" required><button>Create Account →</button></form>
+<form id="login" class="hide"><input id="lemail" type="email" placeholder="Email ID" required><input id="lpass" type="password" placeholder="Password" required><button>Login →</button></form><button class="link" id="switch">Already have an account? Login</button><div id="error"></div></div></section>
+<section id="home" class="hide"><header><div class="brand"><span>SK</span><b>SK Education</b></div><button class="avatar" id="logout">SK</button></header><main><div class="hero"><div class="grid"></div><div class="book">📚</div><small>SMART STUDY • SMART SUPPORT</small><h1>Learn.<br><em>Connect.</em><br>Grow.</h1><p>A modern learning space for notes, study resources and direct support.</p></div>
+<div class="tiles"><a class="tile blue" href="chat.html"><strong>💬</strong><div><b>Chat with Admin</b><small>Direct study support</small></div>↗</a><a class="tile" href="https://skeducation12.vercel.app/" target="_blank"><strong>🌐</strong><div><b>Official Website</b><small>Open SK Education</small></div>↗</a><button class="tile" id="dev"><strong>👨‍💻</strong><div><b>About Developer</b><small>Satendra Kumar</small></div>↗</button></div>
+<section class="card about"><small>ABOUT SK EDUCATION</small><h2>Built for a smoother study experience.</h2><p>SK Education brings learning resources, study support, useful tools and direct communication into one student-friendly space.</p><div class="tags"><span>📚 Notes</span><span>🎯 Class-wise learning</span><span>💬 Admin support</span><span>🔎 Smart search</span><span>📱 Mobile first</span><span>🔔 Notifications</span><span>🧠 Study workflow</span><span>⚡ Fast UI</span><span>🔐 Accounts</span></div></section>
+<section class="card about"><small>DEVELOPER</small><h2>Satendra Kumar</h2><p>Web Developer • Study</p><p>Building education-focused web experiences, digital tools and practical learning systems.</p><div class="tags"><a href="mailto:satendrakkushwaha12@gmail.com">✉️ Email</a><a href="https://t.me/skeducation_support" target="_blank">✈️ @skeducation_support</a></div></section><footer>© 2026 SK Education</footer></main></section>
+<div id="modal" class="modal hide"><div class="card modalcard"><button id="close">×</button><div class="bigsk">SK</div><h2>Satendra Kumar</h2><p>Web Developer • Study</p><p>satendrakkushwaha12@gmail.com</p><a href="https://t.me/skeducation_support" target="_blank">@skeducation_support</a></div></div>
+<script src="app.js"></script></body></html>
