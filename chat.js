@@ -1,0 +1,3 @@
+const form=document.querySelector("#chatForm"),input=document.querySelector("#message"),box=document.querySelector("#messages");
+function add(text,who="user"){const d=document.createElement("div");d.className="bubble "+who;d.innerHTML=`${text.replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]))}<small>${who==="user"?"You":"Admin"} • now</small>`;box.appendChild(d);box.scrollTop=box.scrollHeight}
+form.onsubmit=e=>{e.preventDefault();const v=input.value.trim();if(!v)return;add(v,"user");input.value="";setTimeout(()=>add("Message received. In the live version, this will be delivered to the admin Telegram and replies will return here.","admin"),500)};

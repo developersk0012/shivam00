@@ -1,68 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Instagram Downloader</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;min-height:100vh;background:linear-gradient(135deg,#111827,#4c1d95,#be185d);color:#fff;display:flex;justify-content:center;align-items:center;padding:20px}
-.container{width:100%;max-width:480px;background:rgba(255,255,255,.1);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.18);border-radius:25px;padding:25px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
-.logo{width:70px;height:70px;margin:auto;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:35px;background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7)}
-h1{text-align:center;margin-top:15px}.subtitle{text-align:center;color:#ddd;margin:8px 0 22px}
-.input-box{display:flex;gap:8px}input{width:100%;padding:15px;border:0;outline:0;border-radius:13px;background:rgba(255,255,255,.15);color:white;font-size:15px}input::placeholder{color:#ccc}
-button{border:0;cursor:pointer;border-radius:13px;padding:0 18px;font-weight:bold}.fetch{background:#fff;color:#111}
-.result{display:none;margin-top:22px;background:rgba(0,0,0,.2);border-radius:18px;padding:15px}
-.preview{width:100%;border-radius:15px;max-height:500px;object-fit:cover;background:#000}
-.download{display:block;text-align:center;margin-top:14px;padding:14px;border-radius:13px;background:linear-gradient(90deg,#ff2d55,#8b5cf6);color:white;text-decoration:none;font-weight:bold}
-.status{text-align:center;margin-top:15px;color:#ddd;font-size:14px}.error{color:#ffb4b4}.footer{text-align:center;margin-top:20px;font-size:12px;color:#bbb}
-</style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SK Education</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-<div class="logo">📸</div>
-<h1>Instagram Downloader</h1>
-<p class="subtitle">Download Instagram videos easily</p>
-<div class="input-box">
-<input id="url" type="url" placeholder="Paste Instagram URL...">
-<button class="fetch" onclick="downloadMedia()">Get</button>
+<div id="app">
+  <section id="auth" class="screen auth-screen">
+    <div class="orb orb1"></div><div class="orb orb2"></div>
+    <div class="auth-card glass">
+      <div class="brand-mini"><span>SK</span><b>Education</b></div>
+      <h1 id="authTitle">Create your account</h1>
+      <p id="authSub">Start your smart study journey.</p>
+      <form id="signupForm">
+        <input id="name" placeholder="Full name" autocomplete="name" required>
+        <input id="photo" placeholder="Profile photo URL (optional)" type="url">
+        <input id="signupEmail" placeholder="Email ID" type="email" autocomplete="email" required>
+        <input id="signupPassword" placeholder="Password" type="password" autocomplete="new-password" minlength="6" required>
+        <input id="confirmPassword" placeholder="Confirm password" type="password" autocomplete="new-password" minlength="6" required>
+        <button class="primary" type="submit">Create Account <span>→</span></button>
+      </form>
+      <form id="loginForm" class="hidden">
+        <input id="loginEmail" placeholder="Email ID" type="email" autocomplete="email" required>
+        <input id="loginPassword" placeholder="Password" type="password" autocomplete="current-password" required>
+        <button class="primary" type="submit">Login <span>→</span></button>
+      </form>
+      <button id="switchAuth" class="text-btn">Already have an account? Login</button>
+      <div id="authMsg" class="msg"></div>
+    </div>
+  </section>
+
+  <section id="home" class="hidden">
+    <header class="topbar">
+      <div class="brand"><span class="logo3d">SK</span><strong>SK Education</strong></div>
+      <button id="profileBtn" class="avatar">S</button>
+    </header>
+
+    <main class="landing">
+      <div class="hero">
+        <div class="grid3d"></div>
+        <div class="floating-book">📚</div><div class="floating-orb"></div>
+        <p class="eyebrow">SMART STUDY • SMART SUPPORT</p>
+        <h1>Learn. Connect.<br><em>Grow.</em></h1>
+        <p class="hero-copy">A modern learning space for notes, resources, study support and direct communication with the SK Education team.</p>
+      </div>
+
+      <section class="cards">
+        <button class="feature-card blue" onclick="location.href='chat.html'">
+          <span class="icon">💬</span><div><b>Chat with Admin</b><small>Get direct study support</small></div><span class="arrow">↗</span>
+        </button>
+        <a class="feature-card" href="https://skeducation12.vercel.app/" target="_blank" rel="noopener">
+          <span class="icon">🌐</span><div><b>Official Website</b><small>Open SK Education</small></div><span class="arrow">↗</span>
+        </a>
+        <button class="feature-card" id="developerCard">
+          <span class="icon">👨‍💻</span><div><b>About Developer</b><small>Meet the creator</small></div><span class="arrow">↗</span>
+        </button>
+      </section>
+
+      <section class="about glass">
+        <p class="eyebrow">ABOUT SK EDUCATION</p>
+        <h2>Built for a smoother study experience.</h2>
+        <p>SK Education is designed as a student-friendly digital learning platform where educational resources, useful study tools and support can live in one place. The goal is simple: reduce friction between finding a resource, understanding what to study and getting help when you are stuck.</p>
+        <div class="feature-list">
+          <span>📚 Notes & study resources</span><span>🎯 Class-wise learning</span><span>💬 Direct admin support</span>
+          <span>🔎 Fast content discovery</span><span>📱 Mobile-first experience</span><span>🔔 Helpful notifications</span>
+          <span>🧠 Smart study workflow</span><span>⚡ Smooth modern UI</span><span>🔐 Account-based access</span>
+        </div>
+      </section>
+
+      <section class="developer glass" id="developer">
+        <p class="eyebrow">DEVELOPER</p><h2>Satendra Kumar</h2>
+        <p>Web Developer • Study-focused creator</p>
+        <div class="dev-grid">
+          <a href="mailto:satendrakkushwaha12@gmail.com">✉️ Email</a>
+          <a href="https://t.me/skeducation_support" target="_blank" rel="noopener">✈️ Telegram Support</a>
+        </div>
+        <p class="dev-note">Creating digital tools and learning experiences around education, web development and practical technology.</p>
+      </section>
+      <footer>© 2026 SK Education • Made for learning</footer>
+    </main>
+  </section>
+
+  <div id="devModal" class="modal hidden">
+    <div class="modal-card glass"><button class="close" id="closeModal">×</button><div class="dev-avatar">SK</div><h2>Satendra Kumar</h2><p>Web Developer • Study</p><p class="contact">satendrakkushwaha12@gmail.com</p><a href="https://t.me/skeducation_support" target="_blank">@skeducation_support</a></div>
+  </div>
 </div>
-<div id="status" class="status"></div>
-<div id="result" class="result">
-<img id="thumbnail" class="preview" alt="Preview">
-<a id="downloadBtn" class="download" target="_blank" rel="noopener">⬇️ Download Video</a>
-</div>
-<div class="footer">Use only for content you have permission to download.</div>
-</div>
-<script>
-async function downloadMedia(){
-const url=document.getElementById("url").value.trim();
-const status=document.getElementById("status");
-const result=document.getElementById("result");
-const thumbnail=document.getElementById("thumbnail");
-const downloadBtn=document.getElementById("downloadBtn");
-result.style.display="none";
-if(!url){status.innerHTML="⚠️ Please paste an Instagram URL.";status.className="status error";return}
-if(!url.includes("instagram.com")){status.innerHTML="⚠️ Please enter a valid Instagram URL.";status.className="status error";return}
-status.className="status";status.innerHTML="⏳ Fetching video...";
-try{
-const api="https://mixy-ox-enjoy.vercel.app/?url="+encodeURIComponent(url);
-const response=await fetch(api);
-if(!response.ok) throw new Error("API request failed");
-const data=await response.json();
-const videoUrl=data.video_url||data.video||data.url;
-const thumbUrl=data.thumbnail_url||data.thumbnail||data.cover;
-if(!videoUrl) throw new Error("Video URL not found");
-if(thumbUrl){thumbnail.src=thumbUrl;thumbnail.style.display="block"}else thumbnail.style.display="none";
-downloadBtn.href=videoUrl;
-result.style.display="block";
-status.innerHTML="✅ Video ready!";status.className="status";
-}catch(error){
-console.error(error);
-status.innerHTML="❌ Unable to fetch video. API may be unavailable or this Instagram URL may not be supported.";
-status.className="status error";
-}}
-document.getElementById("url").addEventListener("keydown",e=>{if(e.key==="Enter")downloadMedia()});
-</script>
+<script src="app.js"></script>
 </body>
 </html>
