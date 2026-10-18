@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SK Bot Hosting</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,system-ui,sans-serif;background:#070b16;color:#edf3ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#122c5b 0,#070b16 55%);min-height:100vh}
+main{max-width:1000px;margin:auto;padding:24px 16px 56px}.brand{font-weight:900;font-size:clamp(26px,5vw,42px);letter-spacing:-1px}.brand span{color:#59a6ff}
+.sub{color:#a7b7d2;margin-top:8px}.panel{margin-top:22px;padding:20px;border:1px solid #263856;background:#0c1424dd;border-radius:18px;box-shadow:0 18px 60px #0004}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.field{display:grid;gap:7px;margin:12px 0}label{font-size:13px;color:#b8c9e5}input,button{font:inherit;border-radius:10px;padding:12px;border:1px solid #344866}input{background:#080f1c;color:#fff;width:100%}button{cursor:pointer;background:#2779e8;color:#fff;font-weight:700;border:0}button.secondary{background:#24344d}button.danger{background:#9f3042}.row{display:flex;gap:8px;flex-wrap:wrap}.muted{color:#9aabc6;font-size:13px}.status{color:#80f0b2}.bot{border:1px solid #2b3d5a;border-radius:12px;padding:14px;margin-top:10px;overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#050912;padding:12px;border-radius:10px;max-height:220px;overflow:auto}
+</style>
+</head>
+<body><main>
+<div class="brand">SK <span>Bot Hosting</span></div>
+<div class="sub">Deploy and manage your Telegram Python bots.</div>
+<div class="panel">
+<h2>Account</h2><div class="grid">
+<form id="register"><h3>Create account</h3><div class="field"><label>Email</label><input name="email" type="email" required></div><div class="field"><label>Password (12+ characters)</label><input name="password" type="password" minlength="12" required></div><button>Create account</button></form>
+<form id="login"><h3>Log in</h3><div class="field"><label>Email</label><input name="email" type="email" required></div><div class="field"><label>Password</label><input name="password" type="password" required></div><button class="secondary">Log in</button></form>
+</div><p id="message" class="muted">API URL defaults to same origin. For separate frontend hosting, configure API_BASE in this file.</p>
+</div>
+<div class="panel">
+<h2>Upload a bot</h2>
+<form id="upload"><div class="grid"><div class="field"><label>Bot name</label><input name="name" maxlength="60" placeholder="My Telegram Bot" required></div><div class="field"><label>Python file (.py, max 512 KB)</label><input name="file" type="file" accept=".py,text/x-python" required></div></div><button>Upload Python file</button></form>
+<p class="muted">Never upload code you don't trust. This starter is not yet suitable for public arbitrary-code execution.</p>
+</div>
+<div class="panel"><div class="row" style="justify-content:space-between;align-items:center"><h2>Your bots</h2><div class="row"><button id="refresh" class="secondary">Refresh</button><button id="logout" class="danger">Log out</button></div></div><div id="bots" class="muted">Log in to view your bots.</div></div>
+</main>
+<script>
+const API_BASE = ""; // Set to your API origin if frontend and API are deployed separately.
+let token = sessionStorage.getItem("sk_token") || "";
+const msg = t => document.getElementById("message").textContent=t;
+async function api(path, opts={}) {
+  opts.headers = opts.headers || {};
+  if(token) opts.headers.Authorization = "Bearer "+token;
+  const r=await fetch(API_BASE+path,opts);
+  const ct=r.headers.get("content-type")||"";
+  const body=ct.includes("application/json")?await r.json():await r.text();
+  if(!r.ok) throw new Error(body.error||body||"Request failed");
+  return body;
+}
+async function authForm(id, endpoint){
+ document.getElementById(id).addEventListener("submit",async e=>{
+  e.preventDefault(); const data=Object.fromEntries(new FormData(e.target));
+  try{const out=await api(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});token=out.token;sessionStorage.setItem("sk_token",token);msg("Signed in successfully.");await refreshBots();}
+  catch(err){msg(err.message);}
+ });
+}
+authForm("register","/api/register");authForm("login","/api/login");
+document.getElementById("upload").addEventListener("submit",async e=>{
+ e.preventDefault();const fd=new FormData(e.target);
+ try{await api("/api/bots",{method:"POST",body:fd});msg("Uploaded. Review the security warnings before starting any bot.");e.target.reset();await refreshBots();}
+ catch(err){msg(err.message);}
+});
+async function action(id,act){try{const r=await api(`/api/bots/${id}/${act}`,{method:"POST"});msg("Bot status: "+(r.status||"updated"));await refreshBots();}catch(e){msg(e.message)}}
+async function logs(id){try{const t=await api(`/api/bots/${id}/logs`);alert(String(t).slice(-5000));}catch(e){msg(e.message)}}
+async function del(id){if(!confirm("Delete this bot and its uploaded file?"))return;try{await api(`/api/bots/${id}`,{method:"DELETE"});await refreshBots()}catch(e){msg(e.message)}}
+async function refreshBots(){
+ const root=document.getElementById("bots"); if(!token){root.textContent="Log in to view your bots.";return;}
+ try{const {bots}=await api("/api/bots");root.innerHTML="";
+ if(!bots.length){root.textContent="No bots yet. Upload a Python file above.";return;}
+ for(const b of bots){const d=document.createElement("div");d.className="bot";
+ const title=document.createElement("strong");title.textContent=b.name+" ";
+ const status=document.createElement("span");status.className="status";status.textContent="• "+b.status;
+ d.append(title,status);
+ const controls=document.createElement("div");controls.className="row";controls.style.marginTop="12px";
+ for(const [label,fn,cls] of [["Start",()=>action(b.id,"start"),""],["Stop",()=>action(b.id,"stop"),"secondary"],["Logs",()=>logs(b.id),"secondary"],["Delete",()=>del(b.id),"danger"]]){
+ const btn=document.createElement("button");btn.textContent=label;btn.className=cls;btn.onclick=fn;controls.append(btn);}
+ d.append(controls);root.append(d);}
+ }catch(e){root.textContent=e.message;}
+}
+document.getElementById("refresh").onclick=refreshBots;
+document.getElementById("logout").onclick=()=>{token="";sessionStorage.removeItem("sk_token");refreshBots();msg("Logged out.");};
+refreshBots();
+</script></body></html>
